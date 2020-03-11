@@ -28,12 +28,17 @@ from __future__ import print_function
 import hashlib
 import logging
 import os
+import sys
+
 
 from lxml import etree
 import tensorflow as tf
 
-from tf_datatools.utils import dataset_util
-from tf_datatools.utils import label_map_util
+path = os.path.abspath(os.path.dirname(__file__))
+path = os.path.dirname(path)
+
+from utils import dataset_util
+from utils import label_map_util
 
 
 flags = tf.app.flags
@@ -123,7 +128,7 @@ def main(_):
     years = [FLAGS.year]
 
     writer = tf.python_io.TFRecordWriter(FLAGS.output_path.encode('utf8'))
-    label_map_dict = label_map_util.get_label_map_dict(FLAGS.label_map_path.encode('utf8'))
+    label_map_dict = label_map_util.get_label_map_dict(FLAGS.label_map_path)
 
     for year in years:
         logging.info('Reading from PASCAL %s dataset.', year)
