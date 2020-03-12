@@ -8,7 +8,7 @@
 3. [TF-slim](https://github.com/google-research/tf-slim.git)
 
 ## 环境
-Tensorflow 1.15.2
-lxml 4.5.0
-Pillow 7.0.0
-Matplotlib 3.2.0
+- Tensorflow 1.15.2
+- lxml 4.5.0
+- Pillow 7.0.0
+- Matplotlib 3.2.0
