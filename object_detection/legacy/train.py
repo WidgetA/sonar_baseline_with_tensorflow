@@ -91,7 +91,8 @@ FLAGS = flags.FLAGS
 @contrib_framework.deprecated(None, 'Use object_detection/model_main.py.')
 def main(_):
   assert FLAGS.train_dir, '`train_dir` is missing.'
-  if FLAGS.task == 0: tf.gfile.MakeDirs(FLAGS.train_dir)
+  if FLAGS.task == 0:
+      tf.gfile.MakeDirs(FLAGS.train_dir)
   if FLAGS.pipeline_config_path:
     configs = config_util.get_configs_from_pipeline_file(
         FLAGS.pipeline_config_path)
