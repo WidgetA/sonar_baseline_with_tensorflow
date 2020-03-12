@@ -12,7 +12,7 @@
 - lxml 4.5.0
 - Pillow 7.0.0
 - matplotlib 3.2.0
-- PyYaml 5.3
+
 
 ## 使用方法
 1. 运行 `tfrecord_generator.py`, 采用 `-path` 参数传入大赛数据集的**压缩包** 
