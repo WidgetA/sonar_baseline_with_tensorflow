@@ -4,7 +4,7 @@ import argparse
 import sys
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-path", help="Specify the absolute path to the compressed file")
+parser.add_argument("-path", help="Specify the absolute path to the folder of pre-train model")
 args = parser.parse_args()
 
 if not hasattr(args, 'path'):
