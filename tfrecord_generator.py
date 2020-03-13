@@ -42,41 +42,45 @@ def gen_list(img_path, list_path, tp):
 if not hasattr(args, 'path'):
     print("Please specify the absolute path with \"-path\"")
 else:
-    os.chdir(sys.path[0])
-    f = zipfile.ZipFile(args.path)
-    target_path = os.path.join(sys.path[0], 'dataset/raw_data')
-    for file in f.namelist():
-        filename = file.encode('cp437').decode('gbk')
-        f.extract(file, r'./dataset/raw_data')
-        os.rename(os.path.join(target_path, file), os.path.join(target_path, filename))
+    if len(os.listdir('dataset/train/jpg')) < 20:
+        os.chdir(sys.path[0])
+        f = zipfile.ZipFile(args.path)
+        target_path = os.path.join(sys.path[0], 'dataset/raw_data')
+        for file in f.namelist():
+            filename = file.encode('cp437').decode('gbk')
+            f.extract(file, r'./dataset/raw_data')
+            os.rename(os.path.join(target_path, file), os.path.join(target_path, filename))
 
-    trainset_path = os.path.join(target_path, 'train')
-    for folder in os.listdir(trainset_path):
-        if folder not in ['侧扫声呐图像', '负样本', '前视声呐图像']:
-            if os.path.isdir(os.path.join(trainset_path, folder)):
-                shutil.rmtree(os.path.join(trainset_path, folder))
+        trainset_path = os.path.join(target_path, 'train')
+        for folder in os.listdir(trainset_path):
+            if folder not in ['侧扫声呐图像', '负样本', '前视声呐图像']:
+                if os.path.isdir(os.path.join(trainset_path, folder)):
+                    shutil.rmtree(os.path.join(trainset_path, folder))
+                else:
+                    pass
             else:
-                pass
-        else:
-            continue
+                continue
 
-    os.rename(os.path.join(trainset_path, '侧扫声呐图像'), os.path.join(trainset_path, 'cesao'))
-    os.rename(os.path.join(trainset_path, '负样本'), os.path.join(trainset_path, 'fu'))
-    os.rename(os.path.join(trainset_path, '前视声呐图像'), os.path.join(trainset_path, 'qianshi'))
+        os.rename(os.path.join(trainset_path, '侧扫声呐图像'), os.path.join(trainset_path, 'cesao'))
+        os.rename(os.path.join(trainset_path, '负样本'), os.path.join(trainset_path, 'fu'))
+        os.rename(os.path.join(trainset_path, '前视声呐图像'), os.path.join(trainset_path, 'qianshi'))
 
-    for folder in [os.path.join(trainset_path, 'cesao'), os.path.join(trainset_path, 'qianshi')]:
-        for i, sub_folder in enumerate([os.path.join(folder, 'box'), os.path.join(folder, 'image')]):
-            if i is 0:
-                for file in list(listdir_nohidden(sub_folder, 'xml')):
-                    shutil.copy(os.path.join(sub_folder, file), os.path.join(sys.path[0], 'dataset/train/xml'))
-            else:
-                for file in list(listdir_nohidden(sub_folder, 'jpg')):
-                    shutil.copy(os.path.join(sub_folder, file), os.path.join(sys.path[0], 'dataset/train/jpg'))
+        for folder in [os.path.join(trainset_path, 'cesao'), os.path.join(trainset_path, 'qianshi')]:
+            for i, sub_folder in enumerate([os.path.join(folder, 'box'), os.path.join(folder, 'image')]):
+                if i is 0:
+                    for file in list(listdir_nohidden(sub_folder, 'xml')):
+                        shutil.copy(os.path.join(sub_folder, file), os.path.join(sys.path[0], 'dataset/train/xml'))
+                else:
+                    for file in list(listdir_nohidden(sub_folder, 'jpg')):
+                        shutil.copy(os.path.join(sub_folder, file), os.path.join(sys.path[0], 'dataset/train/jpg'))
 
-    validate_set('./dataset/train/jpg', './dataset/train/xml', './dataset/validate/jpg', './dataset/validate/xml', 0.05)
+        validate_set('./dataset/train/jpg', './dataset/train/xml', './dataset/validate/jpg', './dataset/validate/xml', 0.05)
 
-    gen_list('./dataset/train/jpg', './dataset/train', 'jpg')
-    gen_list('./dataset/validate/jpg', './dataset/validate', 'jpg')
+        gen_list('./dataset/train/jpg', './dataset/train', 'jpg')
+        gen_list('./dataset/validate/jpg', './dataset/validate', 'jpg')
+
+    else:
+        pass
 
     label_map_path = 'tf_datatools/pascal_label_map.pbtxt'
     train_img = 'dataset/train/jpg'
@@ -86,6 +90,7 @@ else:
     val_img = 'dataset/validate/jpg'
     val_xml = 'dataset/validate/xml'
     val_set = 'dataset/validate/train.txt'
+
 
     os.system(
         f'python tf_datatools/create_pascal_tf_record.py --label_map_path={label_map_path} \

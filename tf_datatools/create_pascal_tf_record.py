@@ -101,12 +101,15 @@ def dict_to_tf_example(data,
         for obj in data['object']:
             width = float(obj['bndbox']['xmax']) - float(obj['bndbox']['xmin'])
             height = float(obj['bndbox']['ymax']) - float(obj['bndbox']['ymin'])
-            xmin.append(float(obj['bndbox']['xmin']) / width)
-            ymin.append(float(obj['bndbox']['ymin']) / height)
-            xmax.append(float(obj['bndbox']['xmax']) / width)
-            ymax.append(float(obj['bndbox']['ymax']) / height)
-            classes_text.append(obj['name'].encode('utf8'))
-            classes.append(label_map_dict[obj['name']])
+            if width == 0 or height == 0:
+                continue
+            else:
+                xmin.append(float(obj['bndbox']['xmin']) / width)
+                ymin.append(float(obj['bndbox']['ymin']) / height)
+                xmax.append(float(obj['bndbox']['xmax']) / width)
+                ymax.append(float(obj['bndbox']['ymax']) / height)
+                classes_text.append(obj['name'].encode('utf8'))
+                classes.append(label_map_dict[obj['name']])
 
     example = tf.train.Example(features=tf.train.Features(feature={
         'image/filename': dataset_util.bytes_feature(
