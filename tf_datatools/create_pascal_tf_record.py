@@ -99,10 +99,12 @@ def dict_to_tf_example(data,
 
     if 'object' in data:
         for obj in data['object']:
-            xmin.append(float(obj['bndbox']['xmin']))
-            ymin.append(float(obj['bndbox']['ymin']))
-            xmax.append(float(obj['bndbox']['xmax']))
-            ymax.append(float(obj['bndbox']['ymax']))
+            width = float(obj['bndbox']['xmax']) - float(obj['bndbox']['xmin'])
+            height = float(obj['bndbox']['ymax']) - float(obj['bndbox']['ymin'])
+            xmin.append(float(obj['bndbox']['xmin']) / width)
+            ymin.append(float(obj['bndbox']['ymin']) / height)
+            xmax.append(float(obj['bndbox']['xmax']) / width)
+            ymax.append(float(obj['bndbox']['ymax']) / height)
             classes_text.append(obj['name'].encode('utf8'))
             classes.append(label_map_dict[obj['name']])
 

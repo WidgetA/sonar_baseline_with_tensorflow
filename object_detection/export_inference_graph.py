@@ -103,6 +103,9 @@ python export_inference_graph \
               } \
             }"
 """
+import sys
+import os
+sys.path.append(os.path.abspath(os.getcwd()))
 import tensorflow as tf
 from google.protobuf import text_format
 from object_detection import exporter
