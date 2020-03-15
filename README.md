@@ -8,10 +8,14 @@
 3. [TF-slim](https://github.com/google-research/tf-slim.git)
 
 ## 环境
+- CUDA 10.0
+- cuDNN 7.6.0.64
 - Tensorflow 1.15.2
 - lxml 4.5.0
 - Pillow 7.0.0
 - matplotlib 3.2.0
+- Cython 0.29.15
+- pycocotools 2.0
 
 
 ## 使用方法
