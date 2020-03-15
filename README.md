@@ -21,3 +21,4 @@
 ## 使用方法
 1. 运行 `tfrecord_generator.py`, 采用 `-path` 参数传入大赛数据集的**压缩包** 
 2. 运行 `model_train.py`, 采用 `-path` 参数传入预训练模型的文件夹地址
+3. 运行 `inference.py`, 采用 `-step`指定希望被用于推理的训练步数, `-path`指定被推理图片放置的文件夹路径
